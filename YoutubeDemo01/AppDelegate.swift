@@ -15,7 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        //01-用程式碼生成navigationBar
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        
+        //03-帶入layout參數
+        let layout = UICollectionViewFlowLayout()
+        window?.rootViewController = UINavigationController.init(rootViewController: ViewController(collectionViewLayout: layout))
+        
+    
         return true
     }
 

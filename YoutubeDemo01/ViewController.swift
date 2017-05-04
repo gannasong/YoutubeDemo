@@ -7,19 +7,36 @@
 //
 
 import UIKit
-
-class ViewController: UIViewController {
+    //02-直接修改繼承的項目，改為collectionview，然後跳到appDepegate去加layout
+    //07-增加UICollectionViewDelegateFlowLayout
+class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        //04-將view修改成collectionView
+        collectionView?.backgroundColor = UIColor.white
+        //06-新增collectionViewCell的Class
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "homeCellId")
+        
+    }
+    
+    
+    //05-回傳要顯示多少item跟
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "homeCellId", for: indexPath)
+             cell.backgroundColor = UIColor.red
+        return cell
     }
-
+   
+    
+    //08-實做sizeForItemAt 這方法
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 200)
+    }
 
 }
 

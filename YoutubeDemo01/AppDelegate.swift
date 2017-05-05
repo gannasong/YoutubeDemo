@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let layout = UICollectionViewFlowLayout()
         window?.rootViewController = UINavigationController.init(rootViewController: ViewController(collectionViewLayout: layout))
         
+        //41-講顏色改成紅色
+        UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 239, green: 32, blue: 31)
+        
     
         return true
     }

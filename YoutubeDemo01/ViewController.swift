@@ -13,17 +13,49 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //09-navigation加上title
-        navigationItem.title = "Home"
+        //42-將navigationBar改成不透明
+        self.navigationController!.navigationBar.isTranslucent = false
+        //44-顯示label"Home"
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 30, height: view.frame.height))
+        titleLabel.text = "首頁"
+        titleLabel.textColor = UIColor.white
+        titleLabel.font = UIFont.systemFont(ofSize: 20)
+        navigationItem.titleView = titleLabel
         
+        //09-navigation加上title
+        //43-取消title
+        //navigationItem.title = "Home"
         //04-將view修改成collectionView
         collectionView?.backgroundColor = UIColor.white
         //06-新增collectionViewCell的Class
         //10-將class修改成YouTubeVideoCell
         collectionView?.register(YouTubeVideoCell.self, forCellWithReuseIdentifier: "homeCellId")
         
+        //45-建立navigationButton 函式
+        setupNavBarButtons()
+        
+    }
+    //45-建立navigationButton 函式
+    func setupNavBarButtons() {
+        //47-增加.withRenderingMode(.alwaysOriginal) <= 修改icon顏色
+        let searchImage = UIImage(named: "search01")?.withRenderingMode(.alwaysOriginal)
+        let searchBarButtonItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(handleSearch))
+        //48-建立more
+        let moreButtonImage = UIImage(named: "more02")?.withRenderingMode(.alwaysOriginal)
+        let moreBarButtonItem = UIBarButtonItem(image: moreButtonImage, style: .plain, target: self, action: #selector(handleMore))
+        
+        navigationItem.rightBarButtonItems = [moreBarButtonItem,searchBarButtonItem]
     }
     
+    //46-建立handleSearch函式
+    func handleSearch() {
+        print("search something")
+    }
+    
+    //49-建立handleMore函式
+    func handleMore() {
+        print("MoreMoreMore")
+    }
     
     //05-回傳要顯示多少item跟
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -186,33 +218,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
 //
 }
 
-
-
-//21-擴展
-//UIView...<- 點點點 意思就是不只傳入一個參數
-extension UIView {
-    func addconstraintsWithVisualFormat(format: String, views: UIView...) {
-        
-        var viewsDict = [String: UIView]()
-        
-        for (index, view) in views.enumerated() {
-            let key = "v\(index)"
-            viewsDict[key] = view
-            //25-從上面搬下來
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        //22-將上面func拉下來修改使用-修改Format 跟 viewsDict 參數
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDict))
-    }
-}
-
-
-
-extension UIColor {
-    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
-        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
-    }
-}
 
 
 

@@ -21,12 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //03-帶入layout參數
         let layout = UICollectionViewFlowLayout()
-        window?.rootViewController = UINavigationController.init(rootViewController: ViewController(collectionViewLayout: layout))
+        window?.rootViewController = UINavigationController.init(rootViewController: HomeController(collectionViewLayout: layout))
         
         //41-講顏色改成紅色
         UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 239, green: 32, blue: 31)
         
-    
+        //50-改statusBar顏色
+        let statusBarBackgroundView = UIView()
+        statusBarBackgroundView.backgroundColor = UIColor.rgb(red: 194, green: 31, blue: 31)
+        //51-加到view上
+        window?.addSubview(statusBarBackgroundView)
+        window?.addconstraintsWithVisualFormat(format: "H:|[v0]|", views: statusBarBackgroundView)
+        window?.addconstraintsWithVisualFormat(format: "V:|[v0(20)]|", views: statusBarBackgroundView)
+        
         return true
     }
 

@@ -25,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //41-講顏色改成紅色
         UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 239, green: 32, blue: 31)
+        //52-拿掉陰影
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         
         //50-改statusBar顏色
         let statusBarBackgroundView = UIView()

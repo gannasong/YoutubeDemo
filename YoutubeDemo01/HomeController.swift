@@ -19,7 +19,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 30, height: view.frame.height))
         titleLabel.text = "首頁"
         titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.systemFont(ofSize: 20)
+        titleLabel.font = UIFont.systemFont(ofSize: 17)
         navigationItem.titleView = titleLabel
         
         //09-navigation加上title
@@ -31,10 +31,19 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         //10-將class修改成YouTubeVideoCell
         collectionView?.register(YouTubeVideoCell.self, forCellWithReuseIdentifier: "homeCellId")
         
+        //52-調整collection被蓋住的地方
+        collectionView?.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
+        //53-右側指示欄也要調整位置
+        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
+        
+        
         //45-建立navigationButton 函式
         setupNavBarButtons()
+        //51-建立menubar函式
+        setupMenuBar()
         
     }
+    
     //45-建立navigationButton 函式
     func setupNavBarButtons() {
         //47-增加.withRenderingMode(.alwaysOriginal) <= 修改icon顏色
@@ -55,6 +64,19 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     //49-建立handleMore函式
     func handleMore() {
         print("MoreMoreMore")
+    }
+    
+    //51-建立menubar函式
+    let menuBar: MenuBar = {
+        let mb = MenuBar()
+        return mb
+    }()
+    
+    //51-建立menubar函式
+    func setupMenuBar() {
+        view.addSubview(menuBar)
+        view.addconstraintsWithVisualFormat(format: "H:|[v0]|", views: menuBar)
+        view.addconstraintsWithVisualFormat(format: "V:|[v0(50)]|", views: menuBar)
     }
     
     //05-回傳要顯示多少item跟

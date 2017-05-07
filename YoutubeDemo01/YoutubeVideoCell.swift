@@ -7,14 +7,29 @@
 //
 
 import UIKit
-//52-將cell內容搬到這裡
-
-//11-新增自定義 collection class
-class YouTubeVideoCell: UICollectionViewCell {
+//60-優化代碼
+class BaseCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpViews()
+        setupViews()
     }
+    
+    func setupViews() {
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+}
+
+
+
+//52-將cell內容搬到這裡
+//11-新增自定義 collection class
+class YouTubeVideoCell: BaseCell {
+   
     
     //13-建立imageView
     let videoThumbnailView: UIImageView = {
@@ -80,7 +95,7 @@ class YouTubeVideoCell: UICollectionViewCell {
     
     //12-建立 setupViews func
     //14-加進videoThumbnailView
-    func setUpViews() {
+    override func setupViews() {
         addSubview(videoThumbnailView)
         //18-新增view
         addSubview(separatorView)
@@ -135,7 +150,4 @@ class YouTubeVideoCell: UICollectionViewCell {
         
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
-}

@@ -11,7 +11,58 @@ import UIKit
     //07-增加UICollectionViewDelegateFlowLayout
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
+    //74-
+    var videos: [Video]?
+    
+    
+    //73-
+    func fetchVideos() {
+        let url = URL(string: "https://raw.githubusercontent.com/liuyandong/youtube/master/home.json")
+            URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                    
+                    self.videos = [Video]()
+                    
+                    for dictionary in json as! [[String : AnyObject]] {
+                        let video = Video()
+                        video.title = dictionary["title"] as? String
+                        video.numberOfViews = dictionary["number_of_views"] as? NSNumber
+                        video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
+            
+                        let channelDictionary = dictionary["channel"] as! [String : AnyObject]
+                        
+                        let channel = Channel()
+                        channel.name = channelDictionary["name"] as? String
+                        channel.profileImageName = channelDictionary["profile_image_name"] as? String
+                        video.channel = channel
+                        
+                       self.videos?.append(video)
+                    }
+                    DispatchQueue.main.async {
+                        self.collectionView?.reloadData()
+                    }
+                    
+                    
+                } catch let jsonError{
+                    print(jsonError)
+                }
+                
+                
+                
+                
+        }.resume()
+    }
+    
+    
     override func viewDidLoad() {
+    
+        //72-
+        fetchVideos()
+        
         super.viewDidLoad()
         //42-將navigationBar改成不透明
         self.navigationController!.navigationBar.isTranslucent = false
@@ -30,6 +81,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         //06-新增collectionViewCell的Class
         //10-將class修改成YouTubeVideoCell
         collectionView?.register(YouTubeVideoCell.self, forCellWithReuseIdentifier: "homeCellId")
+        
         
         //52-調整collection被蓋住的地方
         collectionView?.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
@@ -81,11 +133,18 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     //05-回傳要顯示多少item跟
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+//        if let count = videos?.count {
+//            return count
+//        }
+//        return 0
+        //語法糖，簡化上面寫法。如果videos.count是空就回傳0
+        return videos?.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "homeCellId", for: indexPath)
+        //73
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "homeCellId", for: indexPath) as! YouTubeVideoCell
+        cell.video = videos?[indexPath.item]
         return cell
     }
    

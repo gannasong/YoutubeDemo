@@ -29,11 +29,45 @@ class BaseCell: UICollectionViewCell {
 //52-將cell內容搬到這裡
 //11-新增自定義 collection class
 class YouTubeVideoCell: BaseCell {
-   
+  
+    //72
+    //74
+    var video: Video? {
+        didSet {
+            titleLabel.text = video?.title
+            
+            setupThumbnailImage()
+            setupProfileImage()
+            
+            
+            
+            
+            if let channelName = video?.channel?.name, let numberOfViews = video?.numberOfViews {
+                //75-修改數字格式，加入分號
+                let formatter = NumberFormatter()
+                formatter.numberStyle = .decimal
+                
+                subtitleTextView.text = "\(channelName) • 觀看次數：\(formatter.string(from: numberOfViews)!)"
+            }
+        }
+    }
+    
+    //75
+    func setupThumbnailImage() {
+        if let thumbnailUrl = video?.thumbnailImageName {
+            videoThumbnailView.loadImageUsingUrlString(urlString: thumbnailUrl)
+        }
+    }
+    
+    func setupProfileImage() {
+        if let profileImageUrl = video?.channel?.profileImageName {
+            userImageView.loadImageUsingUrlString(urlString: profileImageUrl)
+        }
+    }
     
     //13-建立imageView
-    let videoThumbnailView: UIImageView = {
-        let imageView = UIImageView()
+    let videoThumbnailView: CustomImageView = {
+        let imageView = CustomImageView()
         //imageView.translatesAutoresizingMaskIntoConstraints = false //15-增加這項//24搬到下面或刪掉
         imageView.backgroundColor = UIColor.green
         //34-新增照片
@@ -44,8 +78,8 @@ class YouTubeVideoCell: BaseCell {
     }()
     
     //24-建立頭像image
-    let userImageView: UIImageView = {
-        let imageView = UIImageView()
+    let userImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.backgroundColor = UIColor.blue
         //33-新增照片
         imageView.image = UIImage(named: "myImage")
